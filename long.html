@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="style.css"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>수강신청 시스템</title>
+	</head>
+	<body>
+		<!-- 수업 찾기 -->
+		<div class="sidebar-left">
+			<div class="search-container">
+				<input
+					type="text"
+					class="search-bar"
+					placeholder="과목 코드 또는 과목명을 입력하세요..."
+				/>
+			</div>
+
+			<button class="filter-btn">
+				<svg
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+				</svg>
+				고급 필터 (주간/야간, 학과별...)
+			</button>
+
+			<div class="course-list-title">검색 결과</div>
+
+			<div class="course-list">
+				<!-- 과목 1 -->
+				<div
+					class="course-card"
+					draggable="true"
+					data-id="CS101"
+					data-name="자료구조"
+					data-prof="Kim"
+					data-time="월 09:00-10:15; 수 09:00-10:00"
+					data-schedule="2,09:00,10:15;4,09:00,10:00"
+					data-credit="3"
+				>
+					<div class="course-code">CS101 (분반 1)</div>
+					<div class="course-name">자료구조</div>
+					<div class="course-info">
+						<span>GS. Kim T.A</span>
+						<span class="course-tag">(월)09:00-10:15, (수)09:00-10:00</span>
+					</div>
+				</div>
+
+				<!-- 과목 2 -->
+				<div
+					class="course-card"
+					draggable="true"
+					data-id="CS102"
+					data-name="시스템 프로그래밍"
+					data-prof="Lee"
+					data-time="화 11:30-12:45; 목 11:30-12:45"
+					data-schedule="3,11:30,12:45;5,11:30,12:45"
+					data-credit="3"
+				>
+					<div class="course-code">CS102 (분반 1)</div>
+					<div class="course-name">시스템 프로그래밍</div>
+					<div class="course-info">
+						<span>GS. Lee S.W</span>
+						<span class="course-tag">(화)11:30-12:45, (목)11:30-12:45</span>
+					</div>
+				</div>
+
+				<!-- 과목 3 -->
+				<div
+					class="course-card"
+					draggable="true"
+					data-id="AI201"
+					data-name="AI 입문"
+					data-prof="Park"
+					data-time="월 14:15-16:15"
+					data-schedule="2,14:15,16:15"
+					data-credit="2"
+				>
+					<div class="course-code">AI201 (분반 2)</div>
+					<div class="course-name">AI 입문</div>
+					<div class="course-info">
+						<span>GS. Park H.B</span>
+						<span class="course-tag">(월)14:15-16:15</span>
+					</div>
+				</div>
+
+				<!-- 과목 4 -->
+				<div
+					class="course-card"
+					draggable="true"
+					data-id="MATH05"
+					data-name="이산수학"
+					data-prof="Choi"
+					data-time="수 14:15-16:15; 목 15:30-16:30"
+					data-schedule="4,14:15,16:15;5,15:30,16:30"
+					data-credit="3"
+				>
+					<div class="course-code">MATH05 (분반 1)</div>
+					<div class="course-name">이산수학</div>
+					<div class="course-info">
+						<span>GS. Choi Y.J</span>
+						<span class="course-tag">(수)14:15-16:15, (목)15:30-16:30</span>
+					</div>
+				</div>
+
+				<!-- 과목 5 -->
+				<div
+					class="course-card"
+					draggable="true"
+					data-id="ENG10"
+					data-name="학술 영어"
+					data-prof="Smith"
+					data-time="금 10:15-12:15"
+					data-schedule="6,10:15,12:15"
+					data-credit="2"
+				>
+					<div class="course-code">ENG10 (분반 4)</div>
+					<div class="course-name">학술 영어</div>
+					<div class="course-info">
+						<span>GS. J. Smith</span>
+						<span class="course-tag">(금)10:15-12:15</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 시간표 데모 -->
+		<div class="main-content">
+			<div class="main-header">
+				<div class="main-title">시간표 데모</div>
+				<div class="credit-summary">총 학점: <span id="total-credits">0</span> / 18</div>
+			</div>
+
+			<div
+				class="timetable-container"
+				id="timetable"
+			>
+				<!-- 요일 헤더 -->
+				<div
+					class="timetable-header"
+					style="border-top-left-radius: 8px"
+				>
+					시간
+				</div>
+				<div class="timetable-header">월</div>
+				<div class="timetable-header">화</div>
+				<div class="timetable-header">수</div>
+				<div class="timetable-header">목</div>
+				<div
+					class="timetable-header"
+					style="border-top-right-radius: 8px"
+				>
+					금
+				</div>
+
+				<!-- 아래에서 JS로 시간표 행 생성 -->
+			</div>
+		</div>
+
+		<!-- 대기 과목 -->
+		<div class="sidebar-right">
+			<div class="reserve-header">
+				<div class="reserve-title">
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="#28a745"
+						stroke-width="2"
+					>
+						<path
+							d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+						></path>
+						<polyline points="17 21 17 13 7 13 7 21"></polyline>
+						<polyline points="7 3 7 8 15 8"></polyline>
+					</svg>
+					대기 과목 (장바구니)
+				</div>
+				<div class="reserve-desc">
+					과목을 여기에 드래그 앤 드롭하여 매진 시 대비 예비 목록으로 저장하세요.
+				</div>
+			</div>
+
+			<div
+				class="reserve-zone"
+				id="reserve-zone"
+			>
+				<!-- 대기 과목이 놓이는 영역 -->
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>

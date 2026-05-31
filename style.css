@@ -1,0 +1,528 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	user-select: none;
+}
+
+body {
+	background-color: #1a1a1a;
+	color: #e0e0e0;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 320px 1fr 300px;
+	overflow: hidden;
+}
+
+/* Thao tác cuộn mượt cho các danh sách */
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	background: #2a2a2a;
+}
+::-webkit-scrollbar-thumb {
+	background: #444;
+	border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* --- CỘT TRÁI: TÌM KIẾM & DANH SÁCH MÔN HỌC --- */
+.sidebar-left {
+	background-color: #262626;
+	border-right: 1px solid #333;
+	display: flex;
+	flex-direction: column;
+	padding: 20px 15px;
+	height: 100%;
+}
+
+.search-container {
+	margin-bottom: 15px;
+}
+
+.search-bar {
+	width: 100%;
+	padding: 12px 15px;
+	background-color: #333;
+	border: 1px solid #444;
+	border-radius: 6px;
+	color: #fff;
+	font-size: 14px;
+	outline: none;
+	transition: border-color 0.2s;
+}
+
+.search-bar:focus {
+	border-color: #0078d4;
+}
+
+.filter-btn {
+	width: 100%;
+	padding: 10px;
+	background-color: #3a3a3a;
+	border: 1px solid #4d4d4d;
+	border-radius: 6px;
+	color: #ccc;
+	font-size: 13px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin-bottom: 20px;
+	transition:
+		background-color 0.2s,
+		color 0.2s;
+}
+
+.filter-btn:hover {
+	background-color: #4a4a4a;
+	color: #fff;
+}
+
+.course-list-title {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #888;
+	margin-bottom: 10px;
+	font-weight: 600;
+}
+
+.course-list {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: visible;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding-right: 2px;
+	padding-bottom: 200px;
+}
+
+.course-card {
+	background-color: #333;
+	border-left: 4px solid #0078d4;
+	border-radius: 4px;
+	padding: 14px;
+	cursor: grab;
+	transition:
+		transform 0.2s,
+		box-shadow 0.2s,
+		background-color 0.2s;
+	position: relative;
+	overflow: visible;
+	z-index: 1;
+}
+
+.course-card:hover {
+	background-color: #3d3d3d;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.course-card:active {
+	cursor: grabbing;
+}
+
+.course-code {
+	font-size: 11px;
+	color: #0078d4;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.course-name {
+	font-size: 14px;
+	font-weight: 600;
+	color: #fff;
+	margin-bottom: 6px;
+}
+
+.course-info {
+	font-size: 12px;
+	color: #aaa;
+	display: flex;
+	justify-content: space-between;
+}
+
+.course-tag {
+	background-color: #222;
+	padding: 2px 6px;
+	border-radius: 3px;
+	font-size: 10px;
+}
+
+/* --- CỘT GIỮA: THỜI KHÓA BIỂU DEMO --- */
+.main-content {
+	background-color: #1e1e1e;
+	padding: 25px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow-y: auto;
+}
+
+.main-header {
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.main-title {
+	font-size: 20px;
+	font-weight: 600;
+	color: #fff;
+}
+
+.credit-summary {
+	font-size: 14px;
+	color: #0078d4;
+	background-color: rgba(0, 120, 212, 0.1);
+	padding: 6px 12px;
+	border-radius: 20px;
+	border: 1px solid rgba(0, 120, 212, 0.3);
+}
+
+.timetable-container {
+	flex: 1;
+	background-color: #262626;
+	border-radius: 8px;
+	border: 1px solid #333;
+	display: grid;
+	grid-template-columns: 60px repeat(5, 1fr);
+	grid-template-rows: 40px repeat(10, 1fr);
+	min-height: 680px;
+}
+
+.timetable-header,
+.time-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	font-weight: 600;
+	border-bottom: 1px solid #333;
+	border-right: 1px solid #333;
+	background-color: #2d2d2d;
+	color: #aaa;
+}
+
+.timetable-header {
+	color: #fff;
+}
+
+.time-slot {
+	font-size: 11px;
+	flex-direction: column;
+	color: #888;
+}
+
+.drop-zone {
+	border-bottom: 1px solid #2d2d2d;
+	border-right: 1px solid #2d2d2d;
+	position: relative;
+	background-color: #222;
+	transition: background-color 0.2s;
+}
+
+.drop-zone.drag-over {
+	background-color: rgba(0, 120, 212, 0.15);
+	outline: 2px dashed #0078d4;
+	outline-offset: -2px;
+	z-index: 10;
+}
+
+/* CSS khi một môn học đã được chiếm chỗ trên TKB */
+.placed-course {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	right: 2px;
+	background-color: #1a4d7c;
+	border-radius: 4px;
+	padding: 6px;
+	font-size: 11px;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	border-left: 3px solid #0078d4;
+	overflow: hidden;
+	min-height: 20px;
+}
+
+.placed-course .title {
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.placed-course .details {
+	color: #abc;
+	font-size: 9px;
+}
+
+.placed-course .remove-btn {
+	position: absolute;
+	top: 2px;
+	right: 4px;
+	color: #ff6b6b;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 12px;
+	display: none;
+}
+
+.placed-course:hover .remove-btn {
+	display: block;
+}
+
+/* --- CỘT PHẢI: KHÓA HỌC DỰ BỊ --- */
+.sidebar-right {
+	background-color: #262626;
+	border-left: 1px solid #333;
+	display: flex;
+	flex-direction: column;
+	padding: 20px 15px;
+	height: 100%;
+}
+
+.reserve-header {
+	margin-bottom: 15px;
+}
+
+.reserve-title {
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+	margin-bottom: 4px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.reserve-desc {
+	font-size: 12px;
+	color: #888;
+	line-height: 1.4;
+}
+
+.reserve-zone {
+	flex: 1;
+	background-color: #1e1e1e;
+	border: 2px dashed #444;
+	border-radius: 6px;
+	padding: 12px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	transition:
+		border-color 0.2s,
+		background-color 0.2s;
+}
+
+.reserve-zone.drag-over {
+	border-color: #28a745;
+	background-color: rgba(40, 167, 69, 0.05);
+}
+
+.reserve-card {
+	background-color: #2d2d2d;
+	border-left: 4px solid #28a745;
+	border-radius: 4px;
+	padding: 12px;
+	position: relative;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.reserve-card .remove-btn {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	color: #ff6b6b;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.reserve-card .name {
+	font-size: 13px;
+	font-weight: 600;
+	color: #fff;
+	margin-bottom: 4px;
+}
+
+.reserve-card .meta {
+	font-size: 11px;
+	color: #aaa;
+}
+
+/* ========== TOOLTIP STYLES ========== */
+.tooltip-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+.course-tooltip {
+	visibility: hidden;
+	position: fixed;
+	background-color: #1e1e1e;
+	color: #fff;
+	text-align: left;
+	border-radius: 8px;
+	padding: 16px;
+	z-index: 10000;
+	width: 320px;
+	max-width: 90vw;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+	border: 1px solid #444;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	pointer-events: all;
+	left: auto;
+	top: auto;
+}
+
+.course-tooltip.show {
+	visibility: visible;
+	opacity: 1;
+}
+
+.course-tooltip::after {
+	display: none;
+}
+
+.tooltip-header {
+	margin-bottom: 12px;
+	border-bottom: 2px solid #0078d4;
+	padding-bottom: 8px;
+}
+
+.tooltip-course-name {
+	font-size: 16px;
+	font-weight: 700;
+	color: #0078d4;
+	margin-bottom: 4px;
+}
+
+.tooltip-professor {
+	font-size: 13px;
+	color: #aaa;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.tooltip-professor::before {
+	content: '👨‍🏫';
+	font-size: 14px;
+}
+
+.tooltip-body {
+	margin-bottom: 12px;
+	font-size: 12px;
+	color: #ccc;
+}
+
+.tooltip-info-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 6px;
+	padding-bottom: 4px;
+	border-bottom: 1px solid #333;
+}
+
+.tooltip-info-label {
+	color: #888;
+	font-weight: 500;
+}
+
+.tooltip-info-value {
+	color: #0078d4;
+	font-weight: 600;
+}
+
+.tooltip-rating {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: #ffd700;
+	font-weight: 600;
+}
+
+.tooltip-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid #333;
+}
+
+.tooltip-link-btn {
+	flex: 1;
+	padding: 8px 12px;
+	background-color: #0078d4;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.tooltip-link-btn:hover {
+	background-color: #0061b3;
+}
+
+.tooltip-register-btn {
+	flex: 1;
+	padding: 8px 12px;
+	background-color: #28a745;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	font-size: 11px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.tooltip-register-btn:hover {
+	background-color: #218838;
+}
+
+.tooltip-register-btn.cancel {
+	background-color: #dc3545;
+}
+
+.tooltip-register-btn.cancel:hover {
+	background-color: #c82333;
+}
+
+.tooltip-register-btn:disabled {
+	background-color: #6c757d;
+	cursor: not-allowed;
+}
+
+.tooltip-disabled {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
