@@ -129,11 +129,235 @@ body {
 	cursor: grabbing;
 }
 
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.72);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	z-index: 1000;
+}
+
+.course-modal {
+	max-height: 90vh;
+	overflow-y: auto;
+	background-color: #1d1d1d;
+	border: 1px solid #333;
+	border-radius: 18px;
+	box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+	padding: 24px;
+	position: relative;
+}
+
+.close-modal-btn {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	width: 34px;
+	height: 34px;
+	border: none;
+	border-radius: 50%;
+	background: #2a2a2a;
+	color: #fff;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.course-modal-headline {
+	font-size: 20px;
+	font-weight: 700;
+	margin-bottom: 18px;
+	color: #fff;
+}
+
+.course-modal-grid {
+	display: grid;
+	gap: 14px;
+	margin-bottom: 18px;
+}
+
+.course-modal-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	align-items: flex-start;
+}
+
+.course-modal-row strong {
+	color: #aaa;
+	width: 110px;
+	flex-shrink: 0;
+	font-size: 13px;
+}
+
+.course-modal-row span,
+.course-modal-row .course-modal-list {
+	color: #e3e3e3;
+	font-size: 14px;
+	text-align: right;
+}
+
+.course-modal-body {
+	font-size: 14px;
+	line-height: 1.65;
+	color: #d6d6d6;
+	padding: 14px 0 0;
+	border-top: 1px solid #2c2c2c;
+}
+
+.course-modal-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: flex-end;
+}
+
+.course-modal-chip {
+	background: #282828;
+	color: #cbd5e1;
+	padding: 6px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+}
+
+.modal-action-btn {
+	width: 100%;
+	padding: 12px 16px;
+	margin-top: 20px;
+	border: none;
+	border-radius: 10px;
+	background: #0078d4;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.modal-action-btn:hover {
+	background: #005fa3;
+}
+
+.hidden {
+	display: none !important;
+}
+
+/* Professor modal specific styles */
+.professor-modal .prof-main {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.prof-top {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.prof-top img {
+	width: 160px;
+	height: 160px;
+	object-fit: cover;
+	border-radius: 8px;
+	border: 1px solid #333;
+	background: #111;
+}
+
+.prof-basic {
+	color: #dfe7ef;
+	font-size: 13px;
+}
+
+.prof-name {
+	font-weight: 700;
+	font-size: 16px;
+	color: #fff;
+	margin-bottom: 6px;
+}
+.prof-title,
+.prof-dept,
+.prof-lab,
+.prof-contact,
+.prof-email,
+.prof-research {
+	font-size: 13px;
+	color: #cfd8df;
+}
+
+.prof-bottom {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.prof-tabs {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+.prof-tab-btn {
+	padding: 8px 10px;
+	background: #2b2b2b;
+	color: #d7dfe6;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+}
+.prof-tab-btn.active {
+	background: #0078d4;
+	color: #fff;
+}
+
+.prof-tab-content {
+	background: #141414;
+	border: 1px solid #222;
+	padding: 12px;
+	border-radius: 8px;
+	color: #e6eef6;
+	min-height: 120px;
+}
+
+.prof-tab-content ul {
+	list-style: none;
+	padding-left: 0;
+}
+.prof-tab-content li {
+	padding: 6px 0;
+	border-bottom: 1px dashed rgba(255, 255, 255, 0.03);
+}
+
+.course-modal .course-modal-list .course-modal-chip {
+	cursor: pointer;
+}
+
+.course-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 6px;
+}
+
 .course-code {
 	font-size: 11px;
 	color: #0078d4;
 	font-weight: bold;
 	margin-bottom: 4px;
+}
+
+.course-classification {
+	font-size: 10px;
+	color: #aaa;
+	background-color: #222;
+	padding: 2px 6px;
+	border-radius: 3px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
 
 .course-name {
@@ -253,7 +477,6 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-	cursor: pointer;
 	border-left: 3px solid #0078d4;
 	overflow: hidden;
 	min-height: 20px;
@@ -264,6 +487,7 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	cursor: pointer;
 }
 
 .placed-course .details {
@@ -359,170 +583,10 @@ body {
 	font-weight: 600;
 	color: #fff;
 	margin-bottom: 4px;
+	cursor: pointer;
 }
 
 .reserve-card .meta {
 	font-size: 11px;
 	color: #aaa;
-}
-
-/* ========== TOOLTIP STYLES ========== */
-.tooltip-container {
-	position: relative;
-	display: inline-block;
-	width: 100%;
-}
-
-.course-tooltip {
-	visibility: hidden;
-	position: fixed;
-	background-color: #1e1e1e;
-	color: #fff;
-	text-align: left;
-	border-radius: 8px;
-	padding: 16px;
-	z-index: 10000;
-	width: 320px;
-	max-width: 90vw;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-	border: 1px solid #444;
-	opacity: 0;
-	transition: opacity 0.3s ease;
-	pointer-events: all;
-	left: auto;
-	top: auto;
-}
-
-.course-tooltip.show {
-	visibility: visible;
-	opacity: 1;
-}
-
-.course-tooltip::after {
-	display: none;
-}
-
-.tooltip-header {
-	margin-bottom: 12px;
-	border-bottom: 2px solid #0078d4;
-	padding-bottom: 8px;
-}
-
-.tooltip-course-name {
-	font-size: 16px;
-	font-weight: 700;
-	color: #0078d4;
-	margin-bottom: 4px;
-}
-
-.tooltip-professor {
-	font-size: 13px;
-	color: #aaa;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-}
-
-.tooltip-professor::before {
-	content: '👨‍🏫';
-	font-size: 14px;
-}
-
-.tooltip-body {
-	margin-bottom: 12px;
-	font-size: 12px;
-	color: #ccc;
-}
-
-.tooltip-info-row {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 6px;
-	padding-bottom: 4px;
-	border-bottom: 1px solid #333;
-}
-
-.tooltip-info-label {
-	color: #888;
-	font-weight: 500;
-}
-
-.tooltip-info-value {
-	color: #0078d4;
-	font-weight: 600;
-}
-
-.tooltip-rating {
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	color: #ffd700;
-	font-weight: 600;
-}
-
-.tooltip-actions {
-	display: flex;
-	gap: 8px;
-	margin-top: 12px;
-	padding-top: 12px;
-	border-top: 1px solid #333;
-}
-
-.tooltip-link-btn {
-	flex: 1;
-	padding: 8px 12px;
-	background-color: #0078d4;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	font-size: 11px;
-	font-weight: 600;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
-	transition: background-color 0.2s;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 4px;
-}
-
-.tooltip-link-btn:hover {
-	background-color: #0061b3;
-}
-
-.tooltip-register-btn {
-	flex: 1;
-	padding: 8px 12px;
-	background-color: #28a745;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	font-size: 11px;
-	font-weight: 600;
-	cursor: pointer;
-	transition: background-color 0.2s;
-}
-
-.tooltip-register-btn:hover {
-	background-color: #218838;
-}
-
-.tooltip-register-btn.cancel {
-	background-color: #dc3545;
-}
-
-.tooltip-register-btn.cancel:hover {
-	background-color: #c82333;
-}
-
-.tooltip-register-btn:disabled {
-	background-color: #6c757d;
-	cursor: not-allowed;
-}
-
-.tooltip-disabled {
-	opacity: 0.5;
-	pointer-events: none;
-	cursor: not-allowed;
 }
