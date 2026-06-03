@@ -1,3 +1,6 @@
+var point = 300
+document.getElementsByClassName('point')[0].textContent = point + ' P'
+
 // ========== 강좌 데이터 ==========
 const coursesData = {
 	CS101: {
@@ -10,14 +13,14 @@ const coursesData = {
 		time: '월 09:00-10:15; 수 09:00-10:00',
 		schedule: '2,09:00,10:15;4,09:00,10:00',
 		credits: 3,
-		students: 35,
+		students: 40,
 		capacity: 40,
 		description:
 			'컴퓨터 과학의 기초가 되는 자료구조를 학습합니다. 배열, 연결 리스트, 스택, 큐 등을 다룹니다.',
 		room: '18409',
 		eligibleYears: ['1'],
 		majors: ['컴퓨터공학', '소프트웨어', '데이터사이언스'],
-		syllabusUrl: './syllabus-CS101.html',
+		syllabusUrl: './ul03_0203016_r02.pdf',
 	},
 	CS102: {
 		id: 'CS102',
@@ -100,25 +103,70 @@ const courseListData = Object.values(courseLookup)
 // ========== Professor profiles (keyed by displayed professor string) ==========
 const professorProfiles = {
 	김태현: {
-		photo: './assets/prof-kim.jpg',
+		photo: 'https://static.vecteezy.com/system/resources/thumbnails/016/766/342/small_2x/happy-smiling-young-man-avatar-3d-portrait-of-a-man-cartoon-character-people-illustration-isolated-on-transparent-background-png.png',
 		name: '김태현',
-		title: 'Associate Professor',
-		department: 'Computer Science',
-		lab: 'Algorithms Lab (H201)',
+		title: '조교수',
+		department: '시스템소프트웨어',
+		lab: '18402',
 		phone: '+82-2-1234-5678',
-		email: 'taekim@univ.edu',
-		researchAreas: ['Data Structures', 'Algorithms', 'Parallel Computing'],
-		experience: [
-			'2010-2015: Researcher at KIST',
-			'2016-현재: Associate Professor at University',
+		email: 'taekim@hs.ac.kr',
+		researchAreas: [
+			'신뢰 안전 AI',
+			'AI 보안 (AI Security)',
+			'컴퓨터 포렌식(Computer Forensics)',
 		],
-		projects: ['2018-2019 (PI) FastGraph: Graph processing framework'],
-		patents: ['2019, KIPO, KR20190012345, FastGraph partitioning'],
-		books: ['Advanced Data Structures (2020)'],
-		awards: ['Best Paper, ICALP 2017'],
-		degrees: ['B.S. 2005 Seoul Univ', 'Ph.D. 2011 MIT'],
-		theses: ['2011: Scalable Graph Algorithms (Ph.D thesis)'],
-		coursesTaught: ['CS101 자료구조', 'CS405 고급 알고리즘'],
+		experience: [
+			'2010.03-2015.02: 한국컴퓨터교육학회 이사',
+			'2016.03-현재: 한신대학교 AISW대학 부교수',
+		],
+		projects: [
+			'2018.09.-2020.08. (책임) 지능형 IoT에 적합한 이차식 문제 기반의 양극구조를 이용한 바이오암호시스템 연구, 한국연구재단, 학문후속세대양성사업(박사후국내연수)',
+		],
+		patents: ['2023 출원번호 10-2023-0171594, T-test 기반 정보 누수 탐지 분석 시스템'],
+		books: [
+			'2025 AI문학코딩: Creative 동화 작가의 상상공작소, 김애영 외 저, 한신대학교 디지털새싹사업단, 한국과학창의재단',
+		],
+		awards: ['2024 한신 AISW페스티벌, 윤병준 동상'],
+		degrees: ['박사 20040826 대전대학교 일반대학원 컴퓨터공학과'],
+		theses: [
+			'2025.09 온디바이스 환경에서 생성형AI 기반 웹툰 콘텐츠 지원 저작권 기술에 관한 연구, 한국소프트웨어감정평가학회',
+		],
+		coursesTaught: ['2026-1학기 AI.SW개론', '2026-1학기 진로와상담'],
+		reviews: [
+			{
+				id: 'review-kim-001',
+				studentName: '익명',
+				year: '2025-1학기',
+				course: 'CS101 자료구조',
+				rating: 5,
+				comment: '교수님의 설명이 매우 명확하고 알기 쉬워요. 수강 강력 추천합니다!',
+				likes: 24,
+				dislikes: 1,
+				date: '2025-06-01',
+			},
+			{
+				id: 'review-kim-002',
+				studentName: '익명',
+				year: '2025-1학기',
+				course: 'CS101 자료구조',
+				rating: 4,
+				comment: '이론 설명은 좋은데 실습이 좀 더 있으면 좋겠어요.',
+				likes: 18,
+				dislikes: 2,
+				date: '2025-05-28',
+			},
+			{
+				id: 'review-kim-003',
+				studentName: '익명',
+				year: '2024-2학기',
+				course: 'CS101 자료구조',
+				rating: 5,
+				comment: '어려운 내용도 쉽게 이해할 수 있도록 가르쳐주셔서 감사합니다.',
+				likes: 31,
+				dislikes: 0,
+				date: '2024-12-10',
+			},
+		],
 	},
 	이성우: {
 		photo: './assets/prof-lee.jpg',
@@ -380,7 +428,7 @@ document.querySelectorAll('.drop-zone').forEach((zone) => {
 				<div class="details">${segment.label}</div>
 				<div class="remove-btn" onclick="removeCourse('${courseId}')">×</div>
 				<button class="action-btn quick-register-btn" onclick="quickRegisterCourse('${courseId}')">신청</button>
-				<button class="action-btn cancel-btn" onclick="cancelCourse('${courseId}')">Hủy</button>
+				<button class="action-btn cancel-btn" onclick="cancelCourse('${courseId}')">취소</button>
 			`
 			placed.getElementsByClassName('title')[0].addEventListener('click', () => {
 				openCourseModal(courseId)
@@ -475,6 +523,8 @@ reserveZone.addEventListener('drop', (e) => {
 	const courseName = draggedCard.dataset.name
 	const courseProf = draggedCard.dataset.prof
 	const courseTime = draggedCard.dataset.time
+	const credits = parseInt(draggedCard.dataset.credit)
+	const scheduleEntries = getScheduleSegments(draggedCard.dataset.schedule)
 
 	// 예비 목록에 중복이 있는지 확인
 	if (reserveZone.querySelector(`[data-reserve-id="${courseId}"]`)) {
@@ -491,9 +541,114 @@ reserveZone.addEventListener('drop', (e) => {
                 <div class="name">${courseName}</div>
                 <div class="meta">${courseId} | ${courseProf}</div>
                 <div class="meta" style="color:#888; margin-top:2px;">${courseTime}</div>
+				<button class="action-btn" onclick="this.parentElement.remove()">넣기</button>
             `
 	reserveCard.getElementsByClassName('name')[0].addEventListener('click', () => {
 		openCourseModal(courseId)
+	})
+	reserveCard.getElementsByClassName('action-btn')[0].addEventListener('click', () => {
+		if (registeredCourses[courseId]) {
+			alert('이 강좌는 이미 시간표에 추가되었습니다!')
+			return
+		}
+
+		let hasConflict = false
+		const courseSegments = []
+
+		scheduleEntries.forEach((entry) => {
+			const startHour = Math.floor(entry.start / 60)
+			const endHour = Math.ceil(entry.end / 60)
+			let entryConflict = false
+
+			for (let hour = startHour; hour < endHour; hour++) {
+				const segmentStart = hour === startHour ? entry.start % 60 : 0
+				const segmentEnd = hour === endHour - 1 ? entry.end % 60 || 60 : 60
+				if (segmentStart >= segmentEnd) continue
+
+				const dayHourKey = `${entry.day}-${hour}`
+				const existing = occupiedSegments[dayHourKey] || []
+				const seg = { start: segmentStart, end: segmentEnd, courseId }
+
+				if (
+					existing.some(
+						(existingSeg) => existingSeg.start < seg.end && seg.start < existingSeg.end,
+					)
+				) {
+					hasConflict = true
+					entryConflict = true
+				}
+			}
+
+			if (!entryConflict) {
+				courseSegments.push({
+					day: entry.day,
+					start: entry.start,
+					end: entry.end,
+					startHour,
+					endHour,
+					label: `${entry.startLabel} — ${entry.endLabel}`,
+				})
+			}
+		})
+
+		if (hasConflict) {
+			alert('시간표 충돌! 다른 강좌의 시간을 확인해주세요.')
+		}
+
+		const firstZone = document.querySelector('.drop-zone[data-day="2"][data-hour="9"]')
+		const hourHeight = firstZone ? firstZone.getBoundingClientRect().height : 0
+
+		courseSegments.forEach((segment) => {
+			const startZone = document.querySelector(
+				`.drop-zone[data-day="${segment.day}"][data-hour="${segment.startHour}"]`,
+			)
+			if (!startZone) return
+
+			const left = startZone.offsetLeft
+			const top = startZone.offsetTop + ((segment.start % 60) / 60) * hourHeight
+			const width = startZone.getBoundingClientRect().width
+			const height = ((segment.end - segment.start) / 60) * hourHeight
+
+			// Xác định trạng thái khóa học
+			const course = courseLookup[courseId]
+			const isFull = course && course.students >= course.capacity
+			const statusClass = isFull ? 'full' : 'unregistered'
+
+			const placed = document.createElement('div')
+			placed.className = `placed-course ${statusClass}`
+			placed.dataset.courseId = courseId
+			placed.style.position = 'absolute'
+			placed.style.left = `${left + 2}px`
+			placed.style.top = `${top + 2}px`
+			placed.style.width = `${width - 4}px`
+			placed.style.height = `${height - 4}px`
+			placed.innerHTML = `
+				<div class="title">${courseName}</div>
+				<div class="details">${courseProf}</div>
+				<div class="details">${segment.label}</div>
+				<div class="remove-btn" onclick="removeCourse('${courseId}')">×</div>
+				<button class="action-btn quick-register-btn" onclick="quickRegisterCourse('${courseId}')">신청</button>
+				<button class="action-btn cancel-btn" onclick="cancelCourse('${courseId}')">취소</button>
+			`
+			placed.getElementsByClassName('title')[0].addEventListener('click', () => {
+				openCourseModal(courseId)
+			})
+			timetable.appendChild(placed)
+
+			for (let hour = segment.startHour; hour < segment.endHour; hour++) {
+				const dayHourKey = `${segment.day}-${hour}`
+				occupiedSegments[dayHourKey] = occupiedSegments[dayHourKey] || []
+				occupiedSegments[dayHourKey].push({
+					start: hour === segment.startHour ? segment.start % 60 : 0,
+					end: hour === segment.endHour - 1 ? segment.end % 60 || 60 : 60,
+					courseId,
+				})
+			}
+		})
+
+		registeredCourses[courseId] = courseSegments
+		activeCredits += credits
+		totalCreditsEl.textContent = activeCredits
 	})
 
 	reserveZone.appendChild(reserveCard)
@@ -520,7 +675,7 @@ function createCourseCardElement(course) {
 			<div class="course-code">${course.code} (${course.section})</div>
 			<div class="course-classification">${course.classification}</div>
 		</div>
-		<div class="course-name">${course.name}</div>
+		<div class="course-name">${course.name} <span>(${course.students}/${course.capacity})</span></div>
 		<div class="course-info">
 			<span class="course-professor">${course.professors.join(', ')}</span>
 			<span class="course-tag">${course.time}</span>
@@ -622,6 +777,9 @@ function openCourseModal(courseCode) {
 			el.addEventListener('click', () => openProfessorModal(profName))
 		}
 	})
+	document.getElementById('open-document-modal').onclick = () => {
+		openDocumentModal(course.id)
+	}
 
 	modalOverlay.classList.remove('hidden')
 }
@@ -703,21 +861,106 @@ function renderList(items) {
 	return `<ul>${items.map((it) => `<li>${it}</li>`).join('')}</ul>`
 }
 
+// Helper function to render reviews with like/dislike
+function renderReviews(reviews, profName) {
+	if (!reviews || reviews.length === 0) {
+		return '<div style="color:#9aa6b3; padding: 20px;">강의평가가 아직 없습니다.</div>'
+	}
+
+	return reviews
+		.map((review) => {
+			const likeKey = `review-like-${review.id}`
+			const dislikeKey = `review-dislike-${review.id}`
+			const userLiked = localStorage.getItem(likeKey) === 'true'
+			const userDisliked = localStorage.getItem(dislikeKey) === 'true'
+
+			return `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-meta">
+                            <span class="review-year">${review.year}</span>
+                            <span class="review-course">${review.course}</span>
+                        </div>
+                        <div class="review-rating">
+                            ${'⭐'.repeat(review.rating)}<span style="color:#666">${review.rating}/5</span>
+                        </div>
+                    </div>
+                    <div class="review-comment">${review.comment}</div>
+                    <div class="review-footer">
+                        <div class="review-date">${review.date}</div>
+                        <div class="review-actions">
+                            <button class="review-btn like-btn" onclick="toggleReviewLike('${review.id}', '${profName}')" 
+                                    style="${userLiked ? 'background-color: #0078d4; color: #fff;' : ''}">
+                                👍 <span class="like-count">${review.likes + (userLiked ? 1 : 0)}</span>
+                            </button>
+                            <button class="review-btn dislike-btn" onclick="toggleReviewDislike('${review.id}', '${profName}')"
+                                    style="${userDisliked ? 'background-color: #ff6b6b; color: #fff;' : ''}">
+                                👎 <span class="dislike-count">${review.dislikes + (userDisliked ? 1 : 0)}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `
+		})
+		.join('')
+}
+
+// Toggle like for review
+window.toggleReviewLike = function (reviewId, profName) {
+	const likeKey = `review-like-${reviewId}`
+	const dislikeKey = `review-dislike-${reviewId}`
+	const isCurrentlyLiked = localStorage.getItem(likeKey) === 'true'
+
+	if (isCurrentlyLiked) {
+		localStorage.removeItem(likeKey)
+	} else {
+		localStorage.setItem(likeKey, 'true')
+		localStorage.removeItem(dislikeKey)
+	}
+
+	// Re-render the reviews
+	const prof = professorProfiles[profName]
+	const content = document.getElementById('prof-tab-content')
+	if (content) {
+		content.innerHTML = renderReviews(prof.reviews, profName)
+	}
+}
+
+// Toggle dislike for review
+window.toggleReviewDislike = function (reviewId, profName) {
+	const likeKey = `review-like-${reviewId}`
+	const dislikeKey = `review-dislike-${reviewId}`
+	const isCurrentlyDisliked = localStorage.getItem(dislikeKey) === 'true'
+
+	if (isCurrentlyDisliked) {
+		localStorage.removeItem(dislikeKey)
+	} else {
+		localStorage.setItem(dislikeKey, 'true')
+		localStorage.removeItem(likeKey)
+	}
+
+	// Re-render the reviews
+	const prof = professorProfiles[profName]
+	const content = document.getElementById('prof-tab-content')
+	if (content) {
+		content.innerHTML = renderReviews(prof.reviews, profName)
+	}
+}
+
 function openProfessorModal(profKey) {
 	const prof = professorProfiles[profKey]
 	if (!prof || !profModalOverlay) return
 
 	document.getElementById('prof-photo').src = prof.photo || ''
 	document.getElementById('prof-name').textContent = prof.name || profKey
-	document.getElementById('prof-title').textContent = prof.title || ''
+	document.getElementById('prof-title').textContent = '직위: ' + (prof.title || '')
 
-	document.getElementById('prof-dept').textContent = prof.department || ''
-	document.getElementById('prof-lab').textContent = prof.lab || ''
-	document.getElementById('prof-contact').textContent = prof.phone || ''
-	document.getElementById('prof-email').textContent = prof.email || ''
-	document.getElementById('prof-research-areas').textContent = (prof.researchAreas || []).join(
-		', ',
-	)
+	document.getElementById('prof-dept').textContent = '전공: ' + (prof.department || '')
+	document.getElementById('prof-lab').textContent = '연구실: ' + (prof.lab || '')
+	document.getElementById('prof-contact').textContent = '연락처: ' + (prof.phone || '')
+	document.getElementById('prof-email').textContent = '이메일: ' + (prof.email || '')
+	document.getElementById('prof-research-areas').textContent =
+		'연구분야: ' + (prof.researchAreas || []).join(', ')
 
 	const content = document.getElementById('prof-tab-content')
 	if (!content) return
@@ -726,7 +969,6 @@ function openProfessorModal(profKey) {
 
 	// tab buttons
 	document.querySelectorAll('#prof-tabs .prof-tab-btn').forEach((btn) => {
-		btn.classList.remove('active')
 		btn.addEventListener('click', () => {
 			document
 				.querySelectorAll('#prof-tabs .prof-tab-btn')
@@ -759,7 +1001,7 @@ function openProfessorModal(profKey) {
 					content.innerHTML = renderList(prof.coursesTaught)
 					break
 				case 'reviews':
-					content.innerHTML = ''
+					content.innerHTML = renderReviews(prof.reviews, prof.name)
 					break
 				default:
 					content.innerHTML = ''
@@ -781,8 +1023,309 @@ if (profModalOverlay) {
 		if (e.target === profModalOverlay) closeProfessorModal()
 	})
 }
+// ========== Document Modal ==========
+function openDocumentModal(courseCode) {
+	const course = courseLookup[courseCode]
+	const documentModalOverlay = document.getElementById('document-modal-overlay')
+	if (!course || !documentModalOverlay) return
+
+	documentModalOverlay.classList.remove('hidden')
+}
+
+// ========== 5. 검색 및 필터 기능 ==========
+
+// Helper function to extract day of week from schedule (1=월, 2=화, ..., 6=금)
+const dayNames = {
+	2: '월',
+	3: '화',
+	4: '수',
+	5: '목',
+	6: '금',
+}
+
+const reverseDayNames = {
+	월: '2',
+	화: '3',
+	수: '4',
+	목: '5',
+	금: '6',
+}
+
+// Get unique values from courses for filter dropdowns
+function getUniqueDaysOfWeek() {
+	const days = new Set()
+	courseListData.forEach((course) => {
+		const segments = getScheduleSegments(course.schedule)
+		segments.forEach((seg) => {
+			days.add(dayNames[seg.day])
+		})
+	})
+	return Array.from(days).sort((a, b) => {
+		const order = ['월', '화', '수', '목', '금']
+		return order.indexOf(a) - order.indexOf(b)
+	})
+}
+
+function getUniqueClassifications() {
+	const classifications = new Set()
+	courseListData.forEach((course) => {
+		classifications.add(course.classification)
+	})
+	return Array.from(classifications).sort()
+}
+
+function getUniqueYears() {
+	const years = new Set()
+	courseListData.forEach((course) => {
+		course.eligibleYears.forEach((year) => {
+			years.add(year)
+		})
+	})
+	return Array.from(years).sort()
+}
+
+function getUniqueMajors() {
+	const majors = new Set()
+	courseListData.forEach((course) => {
+		course.majors.forEach((major) => {
+			majors.add(major)
+		})
+	})
+	return Array.from(majors).sort()
+}
+
+// Initialize filter dropdowns
+function initializeFilterDropdowns() {
+	const daySelect = document.getElementById('filter-day')
+	const classSelect = document.getElementById('filter-classification')
+	const yearSelect = document.getElementById('filter-year')
+	const majorSelect = document.getElementById('filter-major')
+
+	// Populate dropdowns
+	getUniqueDaysOfWeek().forEach((day) => {
+		const option = document.createElement('option')
+		option.value = day
+		option.textContent = day
+		daySelect.appendChild(option)
+	})
+
+	getUniqueClassifications().forEach((cls) => {
+		const option = document.createElement('option')
+		option.value = cls
+		option.textContent = cls
+		classSelect.appendChild(option)
+	})
+
+	getUniqueYears().forEach((year) => {
+		const option = document.createElement('option')
+		option.value = year
+		option.textContent = year + '학년'
+		yearSelect.appendChild(option)
+	})
+
+	getUniqueMajors().forEach((major) => {
+		const option = document.createElement('option')
+		option.value = major
+		option.textContent = major
+		majorSelect.appendChild(option)
+	})
+}
+
+// Filter state
+let currentSearchQuery = ''
+let currentFilters = {
+	days: [],
+	classifications: [],
+	years: [],
+	majors: [],
+}
+
+// Search functionality
+function performSearch(query) {
+	currentSearchQuery = query.toLowerCase()
+	applySearchAndFilter()
+}
+
+// Filter functionality
+function performFilter(filters) {
+	currentFilters = filters
+	applySearchAndFilter()
+}
+
+// Combined search and filter
+function applySearchAndFilter() {
+	const courseList = document.querySelector('.course-list')
+	if (!courseList) return
+
+	// Get all course cards
+	const allCourses = Object.values(courseLookup)
+
+	// Filter courses based on search and filters
+	const filteredCourses = allCourses.filter((course) => {
+		// Search filter
+		if (currentSearchQuery) {
+			const matchesSearch =
+				course.code.toLowerCase().includes(currentSearchQuery) ||
+				course.name.toLowerCase().includes(currentSearchQuery) ||
+				course.professors.some((prof) => prof.toLowerCase().includes(currentSearchQuery))
+
+			if (!matchesSearch) return false
+		}
+
+		// Classification filter
+		if (currentFilters.classifications.length > 0) {
+			if (!currentFilters.classifications.includes(course.classification)) return false
+		}
+
+		// Year filter
+		if (currentFilters.years.length > 0) {
+			const hasMatchingYear = currentFilters.years.some((year) =>
+				course.eligibleYears.includes(year),
+			)
+			if (!hasMatchingYear) return false
+		}
+
+		// Major filter
+		if (currentFilters.majors.length > 0) {
+			const hasMatchingMajor = currentFilters.majors.some((major) =>
+				course.majors.includes(major),
+			)
+			if (!hasMatchingMajor) return false
+		}
+
+		// Day filter
+		if (currentFilters.days.length > 0) {
+			const courseSegments = getScheduleSegments(course.schedule)
+			const hasMatchingDay = courseSegments.some((seg) => {
+				const dayName = dayNames[seg.day]
+				return currentFilters.days.includes(dayName)
+			})
+			if (!hasMatchingDay) return false
+		}
+
+		return true
+	})
+
+	// Clear existing cards
+	courseList.querySelectorAll('.course-card').forEach((card) => card.remove())
+
+	// Render filtered courses
+	filteredCourses.forEach((course) => {
+		const cardElement = createCourseCardElement(course)
+		courseList.appendChild(cardElement)
+		addListener(cardElement, course)
+	})
+
+	// Re-attach drag and drop events to new cards
+	document.querySelectorAll('.course-card').forEach((card) => {
+		card.addEventListener('dragstart', (e) => {
+			draggedCard = card
+			e.dataTransfer.setData('text/plain', card.dataset.id)
+			card.style.opacity = '0.5'
+		})
+
+		card.addEventListener('dragend', () => {
+			card.style.opacity = '1'
+			document
+				.querySelectorAll('.drop-zone, .reserve-zone')
+				.forEach((z) => z.classList.remove('drag-over'))
+		})
+	})
+}
+
+// Filter modal handlers
+function openFilterModal() {
+	const filterModalOverlay = document.getElementById('filter-modal-overlay')
+	if (filterModalOverlay) {
+		filterModalOverlay.classList.remove('hidden')
+	}
+}
+
+function closeFilterModal() {
+	const filterModalOverlay = document.getElementById('filter-modal-overlay')
+	if (filterModalOverlay) {
+		filterModalOverlay.classList.add('hidden')
+	}
+}
+
+function resetFilters() {
+	document.getElementById('filter-day').selectedIndex = 0
+	document.getElementById('filter-classification').selectedIndex = 0
+	document.getElementById('filter-year').selectedIndex = 0
+	document.getElementById('filter-major').selectedIndex = 0
+
+	currentFilters = {
+		days: [],
+		classifications: [],
+		years: [],
+		majors: [],
+	}
+
+	applySearchAndFilter()
+	closeFilterModal()
+}
 
 // DOM 로드 후 강좌 초기화
 document.addEventListener('DOMContentLoaded', () => {
 	renderCoursesFromData()
+
+	// Initialize filter dropdowns
+	initializeFilterDropdowns()
+
+	// Search bar event listener
+	const searchBar = document.getElementById('search-bar')
+	if (searchBar) {
+		searchBar.addEventListener('input', (e) => {
+			performSearch(e.target.value)
+		})
+	}
+
+	// Filter modal event listeners
+	const openFilterBtn = document.getElementById('open-filter-btn')
+	const closeFilterBtn = document.getElementById('close-filter-modal')
+	const applyFiltersBtn = document.getElementById('apply-filters-btn')
+	const resetFiltersBtn = document.getElementById('reset-filters-btn')
+	const filterModalOverlay = document.getElementById('filter-modal-overlay')
+
+	if (openFilterBtn) {
+		openFilterBtn.addEventListener('click', openFilterModal)
+	}
+
+	if (closeFilterBtn) {
+		closeFilterBtn.addEventListener('click', closeFilterModal)
+	}
+
+	if (applyFiltersBtn) {
+		applyFiltersBtn.addEventListener('click', () => {
+			const daySelect = document.getElementById('filter-day')
+			const classSelect = document.getElementById('filter-classification')
+			const yearSelect = document.getElementById('filter-year')
+			const majorSelect = document.getElementById('filter-major')
+
+			const selectedDays = Array.from(daySelect.selectedOptions).map((opt) => opt.value)
+			const selectedClasses = Array.from(classSelect.selectedOptions).map((opt) => opt.value)
+			const selectedYears = Array.from(yearSelect.selectedOptions).map((opt) => opt.value)
+			const selectedMajors = Array.from(majorSelect.selectedOptions).map((opt) => opt.value)
+
+			currentFilters = {
+				days: selectedDays,
+				classifications: selectedClasses,
+				years: selectedYears,
+				majors: selectedMajors,
+			}
+
+			applySearchAndFilter()
+			closeFilterModal()
+		})
+	}
+
+	if (resetFiltersBtn) {
+		resetFiltersBtn.addEventListener('click', resetFilters)
+	}
+
+	if (filterModalOverlay) {
+		filterModalOverlay.addEventListener('click', (e) => {
+			if (e.target === filterModalOverlay) closeFilterModal()
+		})
+	}
 })

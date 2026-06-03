@@ -38,11 +38,15 @@
 				<input
 					type="text"
 					class="search-bar"
-					placeholder="과목 코드 또는 과목명을 입력하세요..."
+					id="search-bar"
+					placeholder="과목 코드, 과목명, 교수명을 입력하세요..."
 				/>
 			</div>
 
-			<button class="filter-btn">
+			<button
+				class="filter-btn"
+				id="open-filter-btn"
+			>
 				<svg
 					width="14"
 					height="14"
@@ -64,7 +68,13 @@
 		<!-- 시간표 데모 -->
 		<div class="main-content">
 			<div class="main-header">
-				<div class="main-title">시간표 데모</div>
+				<div class="main-title">
+					<span>시간표 데모</span>
+					<div class="credit-summary">
+						총 학점: <span id="total-credits">0</span> / 18
+					</div>
+				</div>
+
 				<div class="status">
 					<div class="status-chip active">
 						<span class="status-dot"></span>
@@ -79,7 +89,7 @@
 						취소
 					</div>
 				</div>
-				<div class="credit-summary">총 학점: <span id="total-credits">0</span> / 18</div>
+				<div class="point">300 P</div>
 			</div>
 
 			<div
@@ -354,6 +364,12 @@
 					id="modal-course-description"
 				></div>
 				<button
+					class="modal-action-btn-sub"
+					id="open-document-modal"
+				>
+					자료
+				</button>
+				<button
 					class="modal-action-btn"
 					id="modal-syllabus-btn"
 					type="button"
@@ -490,6 +506,113 @@
 							id="prof-tab-content"
 						></div>
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 자료 -->
+		<div
+			class="modal-overlay hidden"
+			id="document-modal-overlay"
+		>
+			<div
+				class="course-modal"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="document-modal-title"
+			>
+				<button
+					class="close-modal-btn"
+					id="close-document-modal"
+					aria-label="닫기"
+				>
+					×
+				</button>
+			</div>
+		</div>
+
+		<!-- Filter Modal -->
+		<div
+			class="modal-overlay hidden"
+			id="filter-modal-overlay"
+		>
+			<div
+				class="filter-modal"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="filter-modal-title"
+			>
+				<button
+					class="close-modal-btn"
+					id="close-filter-modal"
+					aria-label="닫기"
+				>
+					×
+				</button>
+				<div
+					class="filter-modal-headline"
+					id="filter-modal-title"
+				>
+					고급 필터
+				</div>
+
+				<div class="filter-group">
+					<label for="filter-day">시간 (요일)</label>
+					<select
+						id="filter-day"
+						class="filter-select"
+						multiple
+					>
+						<option value="">모두</option>
+					</select>
+				</div>
+
+				<div class="filter-group">
+					<label for="filter-classification">이수구분</label>
+					<select
+						id="filter-classification"
+						class="filter-select"
+						multiple
+					>
+						<option value="">모두</option>
+					</select>
+				</div>
+
+				<div class="filter-group">
+					<label for="filter-year">학년</label>
+					<select
+						id="filter-year"
+						class="filter-select"
+						multiple
+					>
+						<option value="">모두</option>
+					</select>
+				</div>
+
+				<div class="filter-group">
+					<label for="filter-major">전공</label>
+					<select
+						id="filter-major"
+						class="filter-select"
+						multiple
+					>
+						<option value="">모두</option>
+					</select>
+				</div>
+
+				<div class="filter-actions">
+					<button
+						class="filter-action-btn reset-btn"
+						id="reset-filters-btn"
+					>
+						초기화
+					</button>
+					<button
+						class="filter-action-btn apply-btn"
+						id="apply-filters-btn"
+					>
+						적용
+					</button>
 				</div>
 			</div>
 		</div>
