@@ -1,5 +1,39 @@
-var point = 300
-document.getElementsByClassName('point')[0].textContent = point + ' P'
+// Point system is handled by modal-point.js (keeps balance in localStorage)
+var point = 570
+var currentRating = 0
+
+function updatePoints() {
+	document.getElementsByClassName('point')[0].innerHTML = `${point} P`
+	document.getElementsByClassName('point')[1].innerHTML = `${point} P`
+}
+
+function minusPoints() {
+	point -= 30
+	updatePoints()
+}
+
+updatePoints()
+
+const documents = {
+	CS101: [
+		{
+			name: 'CS101_자료구조_중간고사.pptx',
+			url: './documents/강의연습자료1.pptx',
+		},
+		{
+			name: 'CS101_자료구조_기말고사.pptx',
+			url: './documents/강의연습자료1.pptx',
+		},
+		{
+			name: 'CS101_자료구조_과제1.pptx',
+			url: './documents/강의연습자료1.pptx',
+		},
+		{
+			name: 'CS101_자료구조_과제2.pptx',
+			url: './documents/강의연습자료1.pptx',
+		},
+	],
+}
 
 // ========== 강좌 데이터 ==========
 const coursesData = {
@@ -480,7 +514,7 @@ window.removeCourse = function (courseId) {
 // Đăng kí nhanh khóa học
 window.quickRegisterCourse = function (courseId) {
 	const placed = document.querySelectorAll(`.placed-course[data-course-id="${courseId}"]`)
-	if (placed) {
+	if (placed && placed.length) {
 		placed.forEach((element) => {
 			element.classList.remove('unregistered', 'full')
 			element.classList.add('registered')
@@ -492,7 +526,7 @@ window.quickRegisterCourse = function (courseId) {
 window.cancelCourse = function (courseId) {
 	const course = courseLookup[courseId]
 	const placed = document.querySelectorAll(`.placed-course[data-course-id="${courseId}"]`)
-	if (placed) {
+	if (placed && placed.length) {
 		const isFull = course && course.students >= course.capacity
 		placed.forEach((element) => {
 			element.classList.remove('registered')
@@ -867,7 +901,27 @@ function renderReviews(reviews, profName) {
 		return '<div style="color:#9aa6b3; padding: 20px;">강의평가가 아직 없습니다.</div>'
 	}
 
-	return reviews
+	const uploadReviewForm = `
+	<div class="upload-review-form">
+		<textarea id="review-comment" placeholder="강의에 대한 의견을 작성해주세요..."></textarea>
+		<div class="form-actions">
+			<div class="review-info">
+				<span id="review-year">2026-1학기</span>
+				<span id="review-course">CS101 자료구조</span>
+				<div class='review-rating'>
+					<button id='rated1'>☆</button>
+					<button id='rated2'>☆</button>
+					<button id='rated3'>☆</button>
+					<button id='rated4'>☆</button>
+					<button id='rated5'>☆</button>
+				</div>
+			</div>
+			<button class="submit-btn">등록 +100P</button>
+		</div>
+	</div>
+	`
+
+	const reviewsHtml = reviews
 		.map((review) => {
 			const likeKey = `review-like-${review.id}`
 			const dislikeKey = `review-dislike-${review.id}`
@@ -903,6 +957,45 @@ function renderReviews(reviews, profName) {
             `
 		})
 		.join('')
+
+	return uploadReviewForm + reviewsHtml
+}
+
+function functionReviewUpload(reviews, profName) {
+	setRating = (rating) => {
+		currentRating = rating
+		document.getElementById('rated1').innerHTML = rating >= 1 ? '⭐' : '☆'
+		document.getElementById('rated2').innerHTML = rating >= 2 ? '⭐' : '☆'
+		document.getElementById('rated3').innerHTML = rating >= 3 ? '⭐' : '☆'
+		document.getElementById('rated4').innerHTML = rating >= 4 ? '⭐' : '☆'
+		document.getElementById('rated5').innerHTML = rating >= 5 ? '⭐' : '☆'
+	}
+
+	document.getElementById('rated1').onclick = () => setRating(1)
+	document.getElementById('rated2').onclick = () => setRating(2)
+	document.getElementById('rated3').onclick = () => setRating(3)
+	document.getElementById('rated4').onclick = () => setRating(4)
+	document.getElementById('rated5').onclick = () => setRating(5)
+
+	document.getElementsByClassName('submit-btn')[0].onclick = () => {
+		professorProfiles[profName].reviews.push({
+			id: `review-${Date.now()}`,
+			studentName: '익명',
+			year: '2026-1학기',
+			course: 'CS101 자료구조',
+			rating: currentRating || 0,
+			comment: document.getElementById('review-comment').value,
+			likes: 0,
+			dislikes: 0,
+			date: new Date().toLocaleDateString(),
+		})
+
+		point += 100
+		updatePoints()
+
+		document.getElementById('prof-tab-content').innerHTML = renderReviews(reviews, profName)
+		functionReviewUpload(reviews, profName) // Re-attach listeners after re-rendering
+	}
 }
 
 // Toggle like for review
@@ -923,6 +1016,7 @@ window.toggleReviewLike = function (reviewId, profName) {
 	const content = document.getElementById('prof-tab-content')
 	if (content) {
 		content.innerHTML = renderReviews(prof.reviews, profName)
+		functionReviewUpload(prof.reviews, profName) // Re-attach upload listeners after re-rendering
 	}
 }
 
@@ -944,6 +1038,7 @@ window.toggleReviewDislike = function (reviewId, profName) {
 	const content = document.getElementById('prof-tab-content')
 	if (content) {
 		content.innerHTML = renderReviews(prof.reviews, profName)
+		functionReviewUpload(prof.reviews, profName) // Re-attach upload listeners after re-rendering
 	}
 }
 
@@ -1002,6 +1097,7 @@ function openProfessorModal(profKey) {
 					break
 				case 'reviews':
 					content.innerHTML = renderReviews(prof.reviews, prof.name)
+					functionReviewUpload(prof.reviews, prof.name) // Attach listeners for review upload after rendering reviews
 					break
 				default:
 					content.innerHTML = ''
@@ -1028,6 +1124,50 @@ function openDocumentModal(courseCode) {
 	const course = courseLookup[courseCode]
 	const documentModalOverlay = document.getElementById('document-modal-overlay')
 	if (!course || !documentModalOverlay) return
+
+	document.getElementsByClassName('document-files')[0].innerHTML = documents[courseCode]
+		.map((doc) => {
+			return `<div class="document-item">
+			<div class="document-name">${doc.name}</div>
+			<a href="${doc.url}" target="_blank" class="document-link" download="${doc.name}" onclick='minusPoints()'>-30P</a>
+		</div>`
+		})
+		.join('')
+
+	documentModalOverlay.getElementsByClassName('close-modal-btn')[0].onclick = () => {
+		documentModalOverlay.classList.add('hidden')
+	}
+
+	document.getElementsByClassName('upload-btn')[0].onclick = () => {
+		documents[courseCode] = [
+			{
+				name: 'CS101_자료구조_중간고사.pptx',
+				url: './documents/강의연습자료1.pptx',
+			},
+			{
+				name: 'CS101_자료구조_기말고사.pptx',
+				url: './documents/강의연습자료1.pptx',
+			},
+			{
+				name: 'CS101_자료구조_과제1.pptx',
+				url: './documents/강의연습자료1.pptx',
+			},
+			{
+				name: 'CS101_자료구조_과제2.pptx',
+				url: './documents/강의연습자료1.pptx',
+			},
+			{
+				name: '강의연습자료1.pptx',
+				url: './documents/강의연습자료1.pptx',
+			},
+		]
+
+		point += 100 // 예시로 30P 추가
+
+		updatePoints()
+
+		openDocumentModal(courseCode) // Re-open to refresh the list
+	}
 
 	documentModalOverlay.classList.remove('hidden')
 }
