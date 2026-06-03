@@ -361,8 +361,13 @@ document.querySelectorAll('.drop-zone').forEach((zone) => {
 			const width = startZone.getBoundingClientRect().width
 			const height = ((segment.end - segment.start) / 60) * hourHeight
 
+			// Xác định trạng thái khóa học
+			const course = courseLookup[courseId]
+			const isFull = course && course.students >= course.capacity
+			const statusClass = isFull ? 'full' : 'unregistered'
+
 			const placed = document.createElement('div')
-			placed.className = 'placed-course'
+			placed.className = `placed-course ${statusClass}`
 			placed.dataset.courseId = courseId
 			placed.style.position = 'absolute'
 			placed.style.left = `${left + 2}px`
@@ -374,6 +379,8 @@ document.querySelectorAll('.drop-zone').forEach((zone) => {
 				<div class="details">${courseProf}</div>
 				<div class="details">${segment.label}</div>
 				<div class="remove-btn" onclick="removeCourse('${courseId}')">×</div>
+				<button class="action-btn quick-register-btn" onclick="quickRegisterCourse('${courseId}')">신청</button>
+				<button class="action-btn cancel-btn" onclick="cancelCourse('${courseId}')">Hủy</button>
 			`
 			placed.getElementsByClassName('title')[0].addEventListener('click', () => {
 				openCourseModal(courseId)
@@ -419,6 +426,30 @@ window.removeCourse = function (courseId) {
 			totalCreditsEl.textContent = activeCredits
 		}
 		delete registeredCourses[courseId]
+	}
+}
+
+// Đăng kí nhanh khóa học
+window.quickRegisterCourse = function (courseId) {
+	const placed = document.querySelectorAll(`.placed-course[data-course-id="${courseId}"]`)
+	if (placed) {
+		placed.forEach((element) => {
+			element.classList.remove('unregistered', 'full')
+			element.classList.add('registered')
+		})
+	}
+}
+
+// Hủy đăng kí khóa học
+window.cancelCourse = function (courseId) {
+	const course = courseLookup[courseId]
+	const placed = document.querySelectorAll(`.placed-course[data-course-id="${courseId}"]`)
+	if (placed) {
+		const isFull = course && course.students >= course.capacity
+		placed.forEach((element) => {
+			element.classList.remove('registered')
+			element.classList.add(isFull ? 'full' : 'unregistered')
+		})
 	}
 }
 
@@ -612,9 +643,63 @@ if (modalOverlay) {
 	})
 }
 
+// ========== Notice modal logic (initialize once) ==========
+const noticeModalOverlay = document.getElementById('notice-modal-overlay')
+const openNoticeBtn = document.getElementById('open-notice-btn')
+const closeNoticeBtn = document.getElementById('close-notice-modal')
+const noticeTabs = document.querySelectorAll('.notice-tab-btn')
+
+function openNoticeModal() {
+	if (noticeModalOverlay) {
+		noticeModalOverlay.classList.remove('hidden')
+	}
+}
+
+function closeNoticeModal() {
+	if (noticeModalOverlay) {
+		noticeModalOverlay.classList.add('hidden')
+	}
+}
+
+if (openNoticeBtn) {
+	openNoticeBtn.addEventListener('click', openNoticeModal)
+}
+
+if (closeNoticeBtn) {
+	closeNoticeBtn.addEventListener('click', closeNoticeModal)
+}
+
+if (noticeModalOverlay) {
+	noticeModalOverlay.addEventListener('click', (event) => {
+		if (event.target === noticeModalOverlay) {
+			closeNoticeModal()
+		}
+	})
+}
+
+noticeTabs.forEach((tab) => {
+	tab.addEventListener('click', () => {
+		const tabName = tab.getAttribute('data-tab')
+
+		// Remove active class from all tabs and contents
+		noticeTabs.forEach((t) => t.classList.remove('active'))
+		document.querySelectorAll('.notice-tab-content').forEach((content) => {
+			content.classList.add('hidden')
+		})
+
+		// Add active class to clicked tab and show corresponding content
+		tab.classList.add('active')
+		const contentId = `${tabName}-tab`
+		const contentElement = document.getElementById(contentId)
+		if (contentElement) {
+			contentElement.classList.remove('hidden')
+		}
+	})
+})
+
 // ========== Professor modal logic ==========
 function renderList(items) {
-	if (!items || items.length === 0) return '<div style="color:#9aa6b3">Không có dữ liệu</div>'
+	if (!items || items.length === 0) return '<div style="color:#9aa6b3">없음</div>'
 	return `<ul>${items.map((it) => `<li>${it}</li>`).join('')}</ul>`
 }
 
@@ -625,6 +710,7 @@ function openProfessorModal(profKey) {
 	document.getElementById('prof-photo').src = prof.photo || ''
 	document.getElementById('prof-name').textContent = prof.name || profKey
 	document.getElementById('prof-title').textContent = prof.title || ''
+
 	document.getElementById('prof-dept').textContent = prof.department || ''
 	document.getElementById('prof-lab').textContent = prof.lab || ''
 	document.getElementById('prof-contact').textContent = prof.phone || ''

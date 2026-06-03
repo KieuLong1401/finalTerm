@@ -12,9 +12,14 @@ body {
 	height: 100vh;
 	display: grid;
 	grid-template-columns: 320px 1fr 300px;
-	overflow: hidden;
 }
-
+table,
+th,
+td {
+	border-collapse: collapse;
+	border: 1px solid #999999;
+	padding: 8px 12px;
+}
 /* Thao tác cuộn mượt cho các danh sách */
 ::-webkit-scrollbar {
 	width: 6px;
@@ -37,7 +42,32 @@ body {
 	display: flex;
 	flex-direction: column;
 	padding: 20px 15px;
-	height: 100%;
+	height: 100vh;
+	overflow: hidden;
+}
+
+.notice-btn {
+	width: 100%;
+	padding: 10px;
+	background-color: #3a3a3a;
+	border: 1px solid #4d4d4d;
+	border-radius: 6px;
+	color: #ccc;
+	font-size: 13px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin-bottom: 15px;
+	transition:
+		background-color 0.2s,
+		color 0.2s;
+}
+
+.notice-btn:hover {
+	background-color: #4a4a4a;
+	color: #fff;
 }
 
 .search-container {
@@ -95,8 +125,7 @@ body {
 
 .course-list {
 	flex: 1;
-	overflow-y: auto;
-	overflow-x: visible;
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
@@ -163,6 +192,118 @@ body {
 	color: #fff;
 	font-size: 20px;
 	cursor: pointer;
+}
+
+/* 공지사항 모달 스타일 */
+.notice-modal {
+	max-height: 90vh;
+	overflow-y: auto;
+	background-color: #1d1d1d;
+	border: 1px solid #333;
+	border-radius: 18px;
+	box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+	padding: 24px;
+	position: relative;
+	width: 100%;
+	max-width: 600px;
+}
+
+.notice-modal-headline {
+	font-size: 20px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	color: #fff;
+}
+
+.notice-tabs {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #333;
+}
+
+.notice-tab-btn {
+	padding: 12px 16px;
+	background: none;
+	border: none;
+	color: #888;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	position: relative;
+	transition: color 0.2s;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -1px;
+}
+
+.notice-tab-btn:hover {
+	color: #ccc;
+}
+
+.notice-tab-btn.active {
+	color: #0078d4;
+	border-bottom-color: #0078d4;
+}
+
+.notice-tab-content {
+	display: block;
+	animation: fadeIn 0.2s ease;
+}
+
+.notice-tab-content.hidden {
+	display: none;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.notice-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	max-height: calc(90vh - 200px);
+	overflow-y: auto;
+	padding-right: 8px;
+}
+
+.notice-item {
+	padding: 16px;
+	background-color: #262626;
+	border-left: 4px solid #0078d4;
+	border-radius: 6px;
+	transition: background-color 0.2s;
+}
+
+.notice-item:hover {
+	background-color: #2d2d2d;
+}
+
+.notice-item-date {
+	font-size: 11px;
+	color: #888;
+	margin-bottom: 6px;
+}
+
+.notice-item-title {
+	font-size: 14px;
+	font-weight: 600;
+	color: #fff;
+	margin-bottom: 8px;
+}
+
+.notice-item-content {
+	font-size: 13px;
+	color: #aaa;
+	line-height: 1.5;
 }
 
 .course-modal-headline {
@@ -387,8 +528,9 @@ body {
 	padding: 25px;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
-	overflow-y: auto;
+	overflow-y: scroll;
+	height: 100vh;
+	overflow-x: hidden;
 }
 
 .main-header {
@@ -402,6 +544,43 @@ body {
 	font-size: 20px;
 	font-weight: 600;
 	color: #fff;
+}
+
+.status {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+.status-chip {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 14px;
+	border-radius: 20px;
+	font-size: 13px;
+	background-color: #4a4a4a;
+	color: #999;
+	transition: all 0.3s ease;
+}
+
+.status-chip.active {
+	background-color: rgba(76, 175, 80, 0.2);
+	color: #4cb050;
+	border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
+.status-dot {
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background-color: #666;
+}
+
+.status-chip.active .status-dot {
+	background-color: #4cb050;
+	box-shadow: 0 0 6px rgba(76, 175, 80, 0.6);
 }
 
 .credit-summary {
@@ -510,6 +689,63 @@ body {
 	display: block;
 }
 
+/* Trạng thái khóa học */
+.placed-course.full {
+	background-color: #444;
+	border-left-color: #666;
+}
+
+.placed-course.unregistered {
+	background-color: #1a4d7c;
+	border-left-color: #0078d4;
+}
+
+.placed-course.registered {
+	background-color: #1a5a28;
+	border-left-color: #28a745;
+}
+
+.placed-course .action-btn {
+	position: absolute;
+	bottom: 2px;
+	right: 4px;
+	padding: 2px 6px;
+	font-size: 10px;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-weight: 600;
+	transition: opacity 0.2s;
+}
+
+.placed-course .quick-register-btn {
+	background-color: #0078d4;
+	color: #fff;
+	display: none;
+}
+
+.placed-course.unregistered .quick-register-btn {
+	display: block;
+}
+
+.placed-course .cancel-btn {
+	background-color: #ff6b6b;
+	color: #fff;
+	display: none;
+}
+
+.placed-course.registered .cancel-btn {
+	display: block;
+}
+
+.placed-course.registered .remove-btn {
+	display: none;
+}
+
+.placed-course:hover .action-btn {
+	opacity: 1;
+}
+
 /* --- CỘT PHẢI: KHÓA HỌC DỰ BỊ --- */
 .sidebar-right {
 	background-color: #262626;
@@ -517,7 +753,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	padding: 20px 15px;
-	height: 100%;
+	height: 100vh;
+	overflow: hidden;
 }
 
 .reserve-header {
@@ -546,7 +783,7 @@ body {
 	border: 2px dashed #444;
 	border-radius: 6px;
 	padding: 12px;
-	overflow-y: auto;
+	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
